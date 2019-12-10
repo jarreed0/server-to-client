@@ -29,6 +29,7 @@ SDL_Renderer* ren;
 SDL_Window* win;
 Object player;
 int speed;
+bool u,d,r,l;
 public:
 Game();
 ~Game();

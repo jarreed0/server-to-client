@@ -10,6 +10,7 @@ Game::Game() {
   player.dest.w=player.dest.h=10;
   player.src.w=player.src.h=10;
   player.img = loadImg("res/player.png");
+  u=d=l=r=0;
   speed = 5;
   loop();
 }
@@ -56,48 +57,26 @@ void Game::input() {
     if(e.type == SDL_QUIT) {running=false; cout << "Quitting" << endl;}
     if(e.type == SDL_KEYDOWN) {
       if(e.key.keysym.sym == SDLK_ESCAPE) running=false;
-      if(e.key.keysym.sym == SDLK_w) player.v=-speed;
-      if(e.key.keysym.sym == SDLK_a) player.h=-speed;
-      if(e.key.keysym.sym == SDLK_s) player.h=speed;
-      if(e.key.keysym.sym == SDLK_d) player.v=speed;
+      if(e.key.keysym.sym == SDLK_w) {u=1; d=0;}
+      if(e.key.keysym.sym == SDLK_a) {l=1; r=0;}
+      if(e.key.keysym.sym == SDLK_s) {d=1; u=0;}
+      if(e.key.keysym.sym == SDLK_d) {r=1; l=0;}
     }
-    /*if(e.type == SDL_KEYUP) {
-      if(e.key.keysym.sym == SDLK_w) player.setSpeed(player.h, 0);
-      if(e.key.keysym.sym == SDLK_a) player.setSpeed(0, player.v);
-      if(e.key.keysym.sym == SDLK_s) player.setSpeed(player.h, 0);
-      if(e.key.keysym.sym == SDLK_d) player.setSpeed(0, player.v);
-    }}*/}
-/*const Uint8 *keyboard_state_array = SDL_GetKeyboardState(NULL);
-
-SDL_PollEvent(&e);
-
-if(e.type == SDL_KEYDOWN || e.type == SDL_KEYUP) {
-    if (keyboard_state_array[SDL_SCANCODE_UP] && !(keyboard_state_array[SDL_SCANCODE_DOWN])) {
-        player.dest.y--;//v=-speed;
+    if(e.type == SDL_KEYUP) {
+      if(e.key.keysym.sym == SDLK_w) u=0;
+      if(e.key.keysym.sym == SDLK_a) l=0;
+      if(e.key.keysym.sym == SDLK_s) d=0;
+      if(e.key.keysym.sym == SDLK_d) r=0;
     }
-    else if (!keyboard_state_array[SDL_SCANCODE_UP] && keyboard_state_array[SDL_SCANCODE_DOWN]) {
-        //player.v=speed;
-	player.dest.y++;
-    }
-
-    if (keyboard_state_array[SDL_SCANCODE_RIGHT] && !keyboard_state_array[SDL_SCANCODE_LEFT]) {
-        //player.h=speed;
-	player.dest.x++;
-    }
-    if (!keyboard_state_array[SDL_SCANCODE_RIGHT] && keyboard_state_array[SDL_SCANCODE_LEFT]) {
-        player.dest.x--;//speed;
-    }
-}*/
   }
-//}
+}
 
 void Game::update() {
-if(player.v > 0) player.v--;
-if(player.v < 0) player.v++;
-if(player.h > 0) player.h--;
-if(player.h < 0) player.h++;
+if(u) player.dest.y=player.dest.y-speed;
+if(d) player.dest.y=player.dest.y+speed;
+if(l) player.dest.x=player.dest.x-speed;
+if(r) player.dest.x=player.dest.x+speed;
 //player.move();
-//player.setSpeed(0,0);
 if(player.dest.x+player.dest.w > WIDTH) player.dest.x = WIDTH-player.dest.w;
 if(player.dest.x < 0) player.dest.x = 0;
 if(player.dest.y+player.dest.h > HEIGHT) player.dest.y = HEIGHT-player.dest.h;
