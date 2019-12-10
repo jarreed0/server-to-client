@@ -11,7 +11,7 @@ Game::Game() {
   player.src.w=player.src.h=10;
   player.img = loadImg("res/player.png");
   u=d=l=r=0;
-  speed = 5;
+  player.speed = SPEED;
   loop();
 }
 Game::~Game() {cout << "close" << endl;}
@@ -72,10 +72,10 @@ void Game::input() {
 }
 
 void Game::update() {
-if(u) player.dest.y=player.dest.y-speed;
-if(d) player.dest.y=player.dest.y+speed;
-if(l) player.dest.x=player.dest.x-speed;
-if(r) player.dest.x=player.dest.x+speed;
+if(u) player.dest.y=player.dest.y-player.speed;
+if(d) player.dest.y=player.dest.y+player.speed;
+if(l) player.dest.x=player.dest.x-player.speed;
+if(r) player.dest.x=player.dest.x+player.speed;
 //player.move();
 if(player.dest.x+player.dest.w > WIDTH) player.dest.x = WIDTH-player.dest.w;
 if(player.dest.x < 0) player.dest.x = 0;

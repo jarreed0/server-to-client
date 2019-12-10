@@ -8,11 +8,12 @@ using namespace std;
 
 #define WIDTH 1280
 #define HEIGHT 720
+#define SPEED 5
 
 struct Object {
 SDL_Rect dest, src;
 SDL_Texture* img;
-int h, v;
+int h, v, speed;
 void setSpeed(int h, int v) {this->h=h; this->v=v;}
 void move() {
  dest.x=dest.x+h;
