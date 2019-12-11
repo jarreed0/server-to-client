@@ -5,13 +5,23 @@ Game::Game() {
   if(SDL_CreateWindowAndRenderer(WIDTH, HEIGHT, 0, &win, &ren) < 0) cout << "Failed at SDL_CreateWindowAndRenderer()" << SDL_GetError() << endl;
   SDL_SetWindowTitle(win, "Rage");
   running=true;
-  player.dest.x=player.dest.y=0;
-  player.src.x=player.src.y=0;
-  player.dest.w=player.dest.h=10;
-  player.src.w=player.src.h=10;
-  player.img = loadImg("res/player.png");
+  Object p;
+  p.src.y=0;
+  p.src.h=p.src.w=10;
+  p.dest.w=p.dest.h=10;
+  //for(int i=0;i<WIDTH/10;i++) {
+  //for(int k=0;k<HEIGHT/10;k++) {
+  for(int i=0;i<1;i++) {int k=i;
+  //p.dest.x=rand() % WIDTH;
+  //p.dest.y=rand() % HEIGHT;
+  p.dest.x=i*10;
+  p.dest.y=k*10;
+  p.src.x=(rand() % 6) * 10;
+  p.img = loadImg("res/player.png");
+  p.speed = SPEED;
+  player.push_back(p);
+  }//}
   u=d=l=r=0;
-  player.speed = SPEED;
   loop();
 }
 Game::~Game() {cout << "close" << endl;}
@@ -22,14 +32,14 @@ void Game::loop() {  static int lastTime;
     lastFrame=SDL_GetTicks();
     if(lastFrame >= (lastTime+1000)) {
       lastTime=lastFrame;
+	cout << frameCount << endl;
       frameCount=0;
     }
 
     render();
     input();
     update();
-  }
-}
+  }}
 
 
 void Game::render() {
@@ -40,7 +50,7 @@ void Game::render() {
   rect.h=HEIGHT;
   SDL_RenderFillRect(ren, &rect);
 
-  draw(player);
+  for(int i=0;i<player.size();i++) draw(player[i]);
 
   frameCount++;
   int timerFPS = SDL_GetTicks()-lastFrame;
@@ -72,15 +82,15 @@ void Game::input() {
 }
 
 void Game::update() {
-if(u) player.dest.y=player.dest.y-player.speed;
-if(d) player.dest.y=player.dest.y+player.speed;
-if(l) player.dest.x=player.dest.x-player.speed;
-if(r) player.dest.x=player.dest.x+player.speed;
-//player.move();
-if(player.dest.x+player.dest.w > WIDTH) player.dest.x = WIDTH-player.dest.w;
-if(player.dest.x < 0) player.dest.x = 0;
-if(player.dest.y+player.dest.h > HEIGHT) player.dest.y = HEIGHT-player.dest.h;
-if(player.dest.y < 0) player.dest.y = 0;
+for(int i=0;i<player.size();i++) {
+if(u) player[i].dest.y=player[i].dest.y-player[i].speed;
+if(d) player[i].dest.y=player[i].dest.y+player[i].speed;
+if(l) player[i].dest.x=player[i].dest.x-player[i].speed;
+if(r) player[i].dest.x=player[i].dest.x+player[i].speed;
+if(player[i].dest.x+player[i].dest.w > WIDTH) player[i].dest.x = WIDTH-player[i].dest.w;
+if(player[i].dest.x < 0) player[i].dest.x = 0;
+if(player[i].dest.y+player[i].dest.h > HEIGHT) player[i].dest.y = HEIGHT-player[i].dest.h;
+if(player[i].dest.y < 0) player[i].dest.y = 0;}
 }
 
 void Game::draw(Object o) {

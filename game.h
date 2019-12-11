@@ -5,6 +5,8 @@
 using namespace std;
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <vector>
+#include <cstdlib>
 
 #define WIDTH 1280
 #define HEIGHT 720
@@ -28,7 +30,7 @@ bool running;
 int frameCount, timerFPS, lastFrame;
 SDL_Renderer* ren;
 SDL_Window* win;
-Object player;
+vector<Object> player;
 int speed;
 bool u,d,r,l;
 public:
